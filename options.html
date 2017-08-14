@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Focus On</title>
+	<link rel="stylesheet" type="text/css" href="assets/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Raleway">
+  <link rel="stylesheet" type="text/css" href="assets/bootstrap-datetimepicker.min.css">
+	<link rel="stylesheet" type="text/css" href="assets/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="assets/bootstrap-toggle/css/bootstrap-toggle.min.css">
+  <link rel="stylesheet" type="text/css" href="assets/jquery-ui.css">
+  <link rel="stylesheet" type="text/css" href="assets/jquery.dataTables.min.css">
+	<link rel="stylesheet" type="text/css" href="options.css">
+
+	<script type="text/javascript" src="assets/jquery.min.js"></script>
+	<script type="text/javascript" src="assets/bootstrap/js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="assets/moment.js"></script>
+  <script type="text/javascript" src="assets/bootstrap-datetimepicker.js"></script>
+  <script type="text/javascript" src="assets/bootstrap-toggle/js/bootstrap-toggle.min.js"></script>
+  <script type="text/javascript" src="assets/jquery-ui.min.js"></script>
+  <script type="text/javascript" src="assets/jquery.dataTables.min.js"></script>
+  <script type="text/javascript" src="options.js"></script>
+</head>
+<body>
+
+<div class="container">
+  <h2 id="title">Focus On</h2>
+    <div class="row">
+        <div id="now">
+          <span id="today"></span><br><span id="time"></span>
+        </div>
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 bhoechie-tab-container">
+            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 bhoechie-tab-menu">
+              <div class="list-group">
+                <a href="#" class="list-group-item active text-center">
+                 	<i class="fa fa-check-square-o fa-2x"></i> <h4>To Do List</h4>
+                </a>
+                <a href="#" class="list-group-item text-center" id="blocked_sites">
+                  	<i class="fa fa-ban fa-2x"></i> <h4>Blocked Sites</h4>
+                </a>
+                <a href="#" class="list-group-item text-center" id="time_management">
+                  	<i class="fa fa-clock-o fa-2x"></i> <h4>Time Management</h4>
+                </a>
+                <a href="#" class="list-group-item text-center">
+                    <i class="fa fa-smile-o fa-2x"></i> <h4>Give Feedback</h4>
+                </a>
+              </div>
+            </div>
+            <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 bhoechie-tab">
+                <!-- to do list section -->
+                <div class="bhoechie-tab-content active">
+              		<div class="col-md-6">
+                		<form class="form-horizontal">
+    						    <div class="form-group">
+    						        <label class="control-label col-sm-2" for="task">Task:</label>
+    						        <div class="col-sm-10">
+    						            <input type="text" class="form-control" placeholder="I have to do..." name="task" id="task">
+    						        </div>
+    						    </div>
+    						    <div class="form-group">
+                        <label class="control-label col-sm-2" for="deadline">Deadline:</label>
+    		                <div class="col-sm-10">
+                          <div class="input-group date" id="datetimepicker1">
+                            <input type="text" class="form-control" placeholder="Click the icon to set the date and time" id="deadline">
+                            <span class="input-group-addon">
+                                <span class="fa fa-calendar"></span>
+                            </span>
+                          </div>
+    		                </div>
+    		            </div>
+    						    <div class="form-group">
+    						        <div class="col-sm-offset-2 col-sm-10">
+    						            <button type="button" class="btn btn-default" id="addTask"><i class="fa fa-plus-circle"></i> Add</button>
+    						        </div>
+    						    </div>
+  						      </form>
+              		</div>
+
+                  <div class="col-md-6" style="text-align: right;">
+                    <a href="javascript:void(0)" title="To Do List" data-toggle="popover" data-placement="left" data-html="true" data-content="Menu ini adalah goal Anda hari ini.<br>Pekerjaan yang belum terselesaikan akan ditampilkan saat anda mencoba mengakses situs yang diblokir<br>Tetap fokus pada <b>Status</b> berwarna <span class='label label-primary'>biru</span><br>Kolom <b>Record</b> adalah durasi waktu anda selama mengerjakan tugas.<br><i>Keep productive!</i>"><i class="fa fa-info-circle fa-lg"></i></a>
+                  </div>
+
+                  <div class="col-md-12 table-responsive">
+                    <table class="table table-hover" id="todoTable">
+                      <thead>
+                        <tr>
+                          <th>Task</th>
+                          <th>Start at</th>
+                          <th>Finish at</th>
+                          <th>Deadline</th>
+                          <th>Status</th>
+                          <th>Record</th>
+                          <th>Option</th>
+                        </tr>
+                      </thead>
+                      <tbody id="todoListArea">
+                        
+                      </tbody>
+                    </table>  
+                  </div>
+                  
+                </div>
+                <!-- blocked sites section -->
+                <div class="bhoechie-tab-content">
+                  <div class="row">
+                    <div class="col-md-8">
+                      <h4>Manual Block</h4>
+                        <div class="form-group col-md-8">
+                          <div class="input-group col-sm-12">
+                            <span class="input-group-addon"><i class="fa fa-globe"></i></span>
+                            <input id="url" type="text" class="form-control" name="url" placeholder="www.example.com">
+                          </div>
+                        </div>
+                        <div class="col-md-4"><button type="button" class="btn btn-default" id="addUrl"><i class="fa fa-plus-circle"></i> Add</button></div>
+                    </div>
+                    <div class="col-md-4" style="text-align: right; padding-right: 30px;">
+                      <a href="javascript:void(0)" title="Blocked Sites" data-toggle="popover" data-placement="left" data-content="Pada menu ini Anda dapat menambahkan atau menghapus situs yang dapat mengganggu konsentrasi Anda dalam mengerjakan pekerjaan Anda. Anda juga dapat menambakan situs yang ingin diblokir melalui icon Focus On pada toolbar. Proses blokir hanya mengambil domainnya saja. Jadi jika ada beberapa situs yang anda tambahkan secara manual namun tidak bisa, maka blokir situs melalui icon Focus On"><i class="fa fa-info-circle fa-lg"></i></a>
+                    </div>
+                  </div>
+
+                  <div class="row" id="focuson-message">
+                    
+                  </div>
+                  
+
+                  <!-- <div class="row" style="padding-bottom: 20px;">
+                    <div class="col-md-12">
+                      <h4>Block Social Media</h4>
+                      <i class="fa fa-facebook-square fa-2x sosmed" title="facebook" data-url="www.facebook.com"></i>&nbsp;&nbsp;
+                      <i class="fa fa-youtube fa-2x sosmed" title="youtube" data-url="www.youtube.com"></i>&nbsp;&nbsp;
+                      <i class="fa fa-twitter fa-2x sosmed" title="twitter" data-url="twitter.com"></i>&nbsp;&nbsp;
+                      <i class="fa fa-quora fa-2x sosmed" title="quora" data-url="www.quora.com"></i>&nbsp;&nbsp;
+                      <i class="fa fa-pinterest fa-2x sosmed" title="pinterest" data-url="www.pinterest.com"></i>&nbsp;&nbsp;
+                      <i class="fa fa-instagram fa-2x sosmed" title="instagram" data-url="www.instagram.com"></i>&nbsp;&nbsp;
+                      <i class="fa fa-reddit fa-2x sosmed" title="reddit" data-url="www.reddit.com"></i>&nbsp;&nbsp;
+                      <i class="fa fa-whatsapp fa-2x sosmed" title="whatsapp" data-url="web.whatsapp.com"></i>&nbsp;&nbsp;
+                      <i class="fa fa-skype fa-2x sosmed" title="skype" data-url="web.skype.com"></i>&nbsp;&nbsp;
+                      <i class="fa fa-telegram fa-2x sosmed" title="telegram" data-url="web.telegram.org"></i>&nbsp;&nbsp;
+                      <i class="fa fa-tumblr fa-2x sosmed" title="tumblr" data-url="www.tumblr.com"></i>&nbsp;&nbsp;
+                      <i class="fa fa-vine fa-2x sosmed" title="vine" data-url="vine.co"></i>&nbsp;&nbsp;
+                      <i class="fa fa-soundcloud fa-2x sosmed" title="soundcloud" data-url="soundcloud.com"></i>&nbsp;&nbsp;
+                      <i class="fa fa-vimeo fa-2x sosmed" title="vimeo" data-url="vimeo.com"></i>&nbsp;&nbsp;
+                      <i class="fa fa-wechat fa-2x sosmed" title="wechat" data-url="web.wechat.com"></i>&nbsp;&nbsp;
+                      <i class="fa fa-weibo fa-2x sosmed" title="weibo" data-url="www.weibo.com"></i>&nbsp;&nbsp;
+                    </div>  
+                  </div> -->
+                  
+                  <div class="row">
+                    <div class="col-md-12 table-responsive">
+                      <h4>List of Blocked Sites</h4>
+                        <table class="table table-hover">
+                          <thead>
+                            <tr>
+                              <!-- <td>No.</td> -->
+                              <th>Sites</th>
+                              <th>Status</th>
+                              <th>Option</th>
+                            </tr>
+                          </thead>
+                          <tbody id="blockedSitesArea">
+                            
+                          </tbody>
+                        </table>
+                    </div>
+                  </div>
+                    
+                </div>
+    
+                <!-- time management section -->
+                <div class="bhoechie-tab-content">
+                    <div class="row">
+                      <div class="col-md-7">
+                        <h4>Choose one option <a href="javascript:void(0)" title="Time Management" data-toggle="popover" data-placement="right" data-content="Pada menu ini Anda dapat mengatur jalannya Focus On, apakah website yang menggangu ingin selalu diblokir atau diatur berdasarkan waktu kerja Anda"><i class="fa fa-info-circle"></i></a></h4>
+                      </div>
+                      <!-- Timeout -->
+                      <!-- <div class="col-md-5" style="text-align: right;  padding-right: 30px;" id="timeout_div">
+                        <div class="form-group col-md-10">
+                          <label class="control-label col-sm-4" for="timeout">Timeout:</label>
+                          <div class="col-sm-5" style="text-align: left;">
+                            <input type="number" class="form-control" name="timeout" id="timeout" min="1"> 
+                            Minutes
+                          </div>
+                          <div class="col-md-3">
+                            <button class="btn btn-xs btn-success" id="timeout_save_button">Save</button>
+                          </div>
+                        </div>
+                        <div class="col-md-2">
+                          <a href="javascript:void(0)" title="Timeout" data-toggle="popover" data-placement="bottom" data-content="Adalah waktu interupsi saat Focus On dimatikan dan Anda dapat membuka situs yang diblokir dengan waktu yang ditentukan. Namun ketika waktu sudah habis maka Focus On kembali aktif dan Anda harus kembali fokus pada pekerjaannya"><i class="fa fa-info-circle fa-lg"></i></a>
+                        </div>
+                      </div> -->
+                      <!-- // Timeout -->
+                      <!-- <div class="col-md-5" style="text-align: right;">
+                        <label>
+                          Pomodoro Technique
+                          <input type="checkbox" id="pomodoro_switch" data-toggle="toggle" data-size="mini">
+                          <a href="javascript:void(0)" title="Tantang diri Anda dengan teknik ini" data-toggle="popover" data-placement="bottom" data-content="Dengan mengaktifkan fitur pomodoro maka anda tidak diperbolehkan untuk menonaktifkan Focus On dan harus konsentrasi dengan pekerjaan anda selama 25 menit. Kemudian Anda diperbolehkan untuk istirahat selama 3 menit, dalam hal ini Focus On dapat dinonaktifkan. Kemudian ketika waktu istirahat selesai, Anda harus kembali ke dalam 25 menit berikutnya. Dan begitu seterusnya. Anda siap?"><i class="fa fa-info-circle"></i></a>
+                        </label>
+                      </div> -->
+                    </div>
+
+                    <div class="radio">
+                      <label><input type="radio" name="time_management" data-toggle="radio-collapse" data-target="#always_block" value="1">Always Block</label>
+                    </div>
+                    <div id="always_block" class="collapse">
+                      Description: Set focuson always block distraction sites.
+                    </div>
+                    <div class="radio">
+                      <label><input type="radio" name="time_management" data-toggle="radio-collapse" data-target="#work_time" value="2">Set my work time</label>
+                    </div>
+                    <div id="work_time" class="collapse">
+                      Description: You can set focuson to block distraction sites at your chosen times.
+                      <div class="days">
+                        <div class="checkbox-inline">
+                          <label><input type="checkbox" class="days" value="0">Sunday</label>
+                        </div>
+                        <div class="checkbox-inline">
+                          <label><input type="checkbox" class="days" value="1">Monday</label>
+                        </div>
+                        <div class="checkbox-inline">
+                          <label><input type="checkbox" class="days" value="2">Tuesday</label>
+                        </div>
+                        <div class="checkbox-inline">
+                          <label><input type="checkbox" class="days" value="3">Wednesday</label>
+                        </div>
+                        <div class="checkbox-inline">
+                          <label><input type="checkbox" class="days" value="4">Thursday</label>
+                        </div>
+                        <div class="checkbox-inline">
+                          <label><input type="checkbox" class="days" value="5">Friday</label>
+                        </div>
+                        <div class="checkbox-inline">
+                          <label><input type="checkbox" class="days" value="6">Saturday</label>
+                        </div>
+                      </div>
+
+                      <div class="hours">
+                        <div class="col-md-6">
+                          <div class="form-group">
+                            <label class="control-label col-sm-2" for="start_time">From:</label>
+                            <div class="col-sm-10">
+                              <div class="input-group date" id="start_time_picker">
+                                <input type="text" class="form-control" placeholder="Start from..." name="start_time" id="start_time"/>
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-time"></span>
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-6">
+                          <div class="form-group">
+                            <label class="control-label col-sm-2" for="finish_time">Until:</label>
+                            <div class="col-sm-10">
+                              <div class="input-group date" id="finish_time_picker">
+                                <input type="text" class="form-control" placeholder="Finish Until.." name="finish_time" id="finish_time"/>
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-time"></span>
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- <div class="radio">
+                      <label><input type="radio" name="optradio" data-toggle="radio-collapse" data-target="#per_minute">Block per minute</label>
+                    </div>
+                    <div id="per_minute" class="collapse">
+                      Set focuson in <input type="number" name="setPerMinute" style="width: 60px;"> minutes
+                    </div> -->
+                    <!-- <div class="radio">
+                      <label><input type="radio" name="time_management" data-toggle="radio-collapse" data-target="#pomodoro" value="3">Try Pomodoro Technique</label>
+                    </div>
+                    <div id="pomodoro" class="collapse">Teknik Pomodoro adalah teknik yang digunakan dalam mengatur waktu dimana waktu ditentukan selama 25 menit dan Anda harus menyelesaikan pekerjaan yang belum terselesaikan</div> -->
+                   
+                    <div id="buttonSave">
+                      <button class="btn btn-success btn-sm" id="saveTimeManagement">Save Changes</button>
+                    </div>
+
+                </div>
+                <!--// time management section -->
+
+                <!-- Give feedback -->
+                <div class="bhoechie-tab-content">
+                  <!-- <div class="col-md-6">
+                    <form class="form-horizontal">
+                    <div class="form-group">
+                        <label class="control-label col-sm-4" for="useful">Is this Extension Useful?</label>
+                        <div class="col-sm-10 col-sm-offset-4">
+                            <select class="form-control">
+                              <option>Yes</option>
+                              <option>No</option>
+                            </select>
+                        </div>
+
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-4" for="comment">Comment</label>
+                        <div class="col-sm-10 col-sm-offset-4">
+                            <textarea class="form-control"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-4 col-sm-10">
+                            <button type="button" class="btn btn-default" id=""><i class="fa fa-plus-circle"></i> Submit</button>
+                        </div>
+                    </div>
+                    </form>
+                  </div> -->
+                  <br>
+                  Thank you for using Focus On.<br>
+                  Please rate my extension and give comment <a href="https://docs.google.com/forms/d/e/1FAIpQLSfmXWOn5yj2sAxd-RZamGdyeYvFXKIfNpoE6m1UY-pWklon6Q/viewform?usp=sf_link" target="blank">here</a>
+                </div>
+                <!-- // Give feedback -->
+               
+            </div>
+        </div>
+  	</div>
+    <!-- <div class="footer">
+      Developed by <a href="https://facebook.com/ardhi.syabani" target="blank">Ardhi Irfan Sya'bani</a><br>
+      Template design by: <a href="https://bootsnipp.com/snippets/featured/simple-vertical-tab" target="blank">Septian-Bhoechie</a>
+    </div> -->
+</div>
+
+</body>
+</html>
