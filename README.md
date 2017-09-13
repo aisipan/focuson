@@ -10,3 +10,5 @@ How to use it?
 4. Submit the sites you want to block so as not to interfere with concentration while working on tasks on the Blocked Sites menu.
 5. Set blocking time by selecting always block or set my work time (can be set by working hours) in Time Management menu
 6. Activate Focus On by pressing the icon button and move the focus mode toggle to ON :)
+
+Article: http://one403006.ta.ti.polindra.ac.id/
