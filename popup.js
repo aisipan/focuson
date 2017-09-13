@@ -37,8 +37,6 @@ $(function(){
 			}
 			
 			var isMatch = blockedUrls.find(findMatchingBlockedUrl);
-			// console.log(isMatch);
-			// console.log(tabDomain);
 
 			// kalo misal url di tabnya "chrome-extension://"+id+"/options.html" (maka can't block)
 			// (halaman options.html)
@@ -156,19 +154,8 @@ $(function(){
   function toggleFocusButtons(disabled) {
   	if (disabled) {		
       console.log('off---');
-      /*chrome.tabs.query({'active': true, 'lastFocusedWindow': true}, function(tabs) {
-      	console.log(tabs);
-      });*/
-      /*$("#toggle-button").html("");
-      $("#toggle-button").append('<input id="focus-switch-button" type="checkbox" data-toggle="toggle" data-size="small" data-onstyle="success">');*/
   	} else {
       console.log('on---');
-      /*$("#toggle-button").html("");
-      $("#toggle-button").append('<input id="focus-switch-button" type="checkbox" data-toggle="toggle" data-size="small" data-onstyle="success" checked>');*/
-      
-      /*chrome.tabs.query({'active': true, 'lastFocusedWindow': true}, function(tabs) {
-      	console.log(tabs);
-      });*/
     }
   }
 
@@ -176,27 +163,19 @@ $(function(){
   function checkFocusPreference() {
     getRuntime().sendMessage({type: "getFocusPreference"}, function(response){
       var disabled = response.off; // keadaan mati (true/false?)
-      // console.log("disabled: "+disabled);
       toggleFocusButtons(disabled);
       if (disabled) {
-      	// $("#focus-switch-button").prop("checked", false);
-        // toggleButton.prop("checked", false);
       	$("#focus-switch-button").bootstrapToggle('off');
         // console.log('mati');
-        // return;
       } else {
-      	// $("#focus-switch-button").prop("checked", true);
-        // toggleButton.prop("checked", true);
       	$("#focus-switch-button").bootstrapToggle('on');
         // console.log('nyala');
-        // return;
       }
 
       var toggleButton = $("#focus-switch-button");
 
 		  toggleButton.on("change", function(){
 		    var disabled = !$(this).prop("checked");
-		    // console.log("disabled: "+disabled);
 		    getRuntime().sendMessage({
 		      type: "toggleFocusPreference",
 		      disabled: disabled

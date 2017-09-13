@@ -175,13 +175,6 @@ $(function() {
         return 0;
       });
 
-      /* // kalo disorting descending
-      var deadline_desc = data.sort(function(a, b){
-        if (a.deadline > b.deadline) return -1;
-        if (a.deadline < b.deadline) return 1;
-        return 0;
-      });*/
-
       $('#todoListArea').html("");
 
       // console.log(data);
@@ -337,21 +330,6 @@ $(function() {
                     '</div>');
           }
         });
-        
-        // load blocked sites
-        /*focuson.storage.loadBlockedUrls(function(data) {
-          var blockedUrls = data;
-          console.log(domain);
-        });*/
-
-        /*chrome.storage.sync.get({dataUrl: []}, function(result){
-          var dataUrl = result.dataUrl;
-          dataUrl.push({url: url});
-          chrome.storage.sync.set({dataUrl: dataUrl}, function(){    
-              $("#url").val('');
-              getBlockedUrl();
-          });
-        });*/
       }
   });
 
@@ -408,17 +386,6 @@ $(function() {
     });
   });
 
-  /*$("input[type=radio]").on("click", function(){
-    var type = $( "input:checked" ).val();
-    // var log = $( "input:checked" ).val() + " is checked!";
-    // console.log(log);
-    if (type === "1") {
-      alert('1');
-    }
-  });*/
- 
-
-
   $("#start_time_picker").datetimepicker({
       format: 'LT',
   });
@@ -429,8 +396,7 @@ $(function() {
 
   // load time management settings dan timeout
   $("#time_management").click(function(){
-    focuson.storage.loadTimeManagement(function(data) {
-      console.log(data);
+    focuson.storage.loadTimeManagement(function(data) {      
       if (typeof data[0].type === "undefined") {
         return;
       }
@@ -466,15 +432,6 @@ $(function() {
       }
     }); // end of loadTimeManagement
 
-    /*// load timeout
-    chrome.storage.sync.get('timeout', function(data){
-      var timeout = data.timeout;
-      $("#timeout").val(timeout);
-      console.log(timeout);
-    });*/
-
-    // load pomodoro
-    // checkPomodoroPreference();
   });  
 
   $("#saveTimeManagement").click(function(){
@@ -521,36 +478,21 @@ $(function() {
     return false;
   }); // end of saveManagementTime button
 
-  /*// interrupt time
-  $("#timeout_save_button").click(function(){
-    var timeout = $("#timeout").val();
-    if (timeout === '' || timeout === null) {
-      alert("You haven't set the timeout");
-    } else {
-      chrome.storage.sync.set({'timeout': timeout});
-      alert('Timeout has been saved');
-    }   
-  });
-*/
   // pomodoro technique
   function togglePomodoro(disabled) {
     if (disabled) {
       // console.log('pomodoro mati');
       // alert('Pomodoro Off');
-      // console.log(disabled);
     }
     else {
       // console.log('pomodoro nyala');
       // alert('Pomodoro On');
-      // console.log(disabled);
     }
   }
-
 
   function checkPomodoroPreference() {
     getRuntime().sendMessage({type: "getPomodoroPreference"}, function(response){
       var disabled = response.off;
-      // console.log(disabled);
       togglePomodoro(disabled); // ngirim pesan kondisi ke togglePomodoro, tampilannya mau seperti apa
       if (disabled) {
         // keadaan button switch
@@ -568,8 +510,6 @@ $(function() {
         });
         togglePomodoro(disabled);
       });
-
-      
     });
   }
   checkPomodoroPreference();

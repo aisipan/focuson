@@ -132,11 +132,11 @@ var focuson = {
       chrome.windows.getLastFocused(function(winInfo){
         if (!winInfo || !winInfo.focused)
         {
-          callback();
+          // callback();
           return;
         }
         chrome.tabs.query({active: true, windowId: winInfo.id}, function(tabInfo){
-          if (!tabInfo || tabInfo.length == 0)
+          if (!tabInfo || tabInfo.length === 0)
           {
             callback();
             return;

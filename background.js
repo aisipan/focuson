@@ -90,8 +90,6 @@
 	      // kalo misal work time, cek settingannya
 	      else if (time_management_type === 1) {
 	        // alert('Your last setting: set my work time');
-	    //     var d = new Date();
-					// var day = d.getDay();
 	        var days = data[0].days;
 	        var start_time = data[0].start_time;
 	        var start_time_ms = focuson.timer.getTimeMilliseconds(start_time); // convert to milliseconds
@@ -150,7 +148,7 @@
 
 	  });
 	}
-	setInterval(blockOrNot, 100);
+	setInterval(blockOrNot, 1000);
 
 	setInterval(getCurrentTime, delay);
 
@@ -159,226 +157,6 @@
 	}
 
 	var setupWormholeListener = function() {
-		/*chrome.webRequest.onBeforeRequest.addListener(function(info) {	
-			// cek tombol focus mode aktif/tidak aktif
-			if (focusOff) {
-				return;
-			}
-
-			// url yang diketikan di kolom pencarian
-			var url = info.url;
-			var domain = focuson.util.extractsDomain(url); // ngambil domainnya aja
-
-			// pertama, cek pilihan time management
-			focuson.storage.loadTimeManagement(function(data){
-				if (typeof data === "undefined") {
-					return;
-				}
-	      if (typeof data[0].type === "undefined") {
-	      	alert("Set your time management first");
-	      	return;
-	      }
-	      var time_management_type = data[0].type;
-
-	      // kalo misal always block
-	      if (time_management_type === 0) {
-	        // console.log('Your last setting: always block');
-	        // load blocked sites -> BLOCK
-					focuson.storage.loadBlockedUrls(function(data){
-						var blockedUrls = data;
-						var blockedUrls_array = []; // populated blockedUrls into one array
-						$.map(blockedUrls, function(obj, index){
-							var blockedUrl = obj.url;
-							blockedUrls_array.push(blockedUrl);
-						});				
-						// kalo domain yang dicari di kolom pencarian ada sama dengan yang di array blockedUrls_array,
-						if ($.inArray(domain, blockedUrls_array) > -1) {
-							// maka arahkan ke halaman block.html
-							chrome.tabs.update({url: chrome.extension.getURL("block.html") + "#" + domain});
-							return {redirectUrl: chrome.extension.getURL("block.html") + "#" + domain};
-						}
-						else {
-							// kalo ngga maka bisa browsing
-						}
-					}); // end loadBlockedUrls
-	      }
-
-	      // kalo misal work time, cek settingannya
-	      else if (time_management_type === 1) {
-	        // alert('Your last setting: set my work time');
-	        var days = data[0].days;
-	        var start_time = data[0].start_time;
-	        var start_time_ms = focuson.timer.getTimeMilliseconds(start_time); // convert to milliseconds
-	        var finish_time = data[0].finish_time;
-	        var finish_time_ms = focuson.timer.getTimeMilliseconds(finish_time); // convert to milliseconds
-	        var current_time_ms = chrome.extension.getBackgroundPage().current_time_ms;	        
-	        
-	        // cek hari ini, apakah sama dengan data yang ada di days?
-	        if ($.inArray(day, days) > -1) {
-	        	// kalo hari ini termasuk hari yang dilarang, cek waktunya
-	        	if (current_time_ms < start_time_ms || current_time_ms > finish_time_ms ) {
-	        		// kalo waktu sekarang diluar dari jam kerja (out of work time), maka boleh
-		          // console.log('di luar jam kerja');
-		          return;
-		        } 
-		        else {
-		        	// kalo masih di jam kerja, ga boleh (block)
-		          // console.log("masih jam kerja");
-
-		          // load blocked sites -> BLOCK
-							focuson.storage.loadBlockedUrls(function(data){
-								var blockedUrls = data;
-								var blockedUrls_array = []; // populated blockedUrls into one array
-								$.map(blockedUrls, function(obj, index){
-									var blockedUrl = obj.url;
-									blockedUrls_array.push(blockedUrl);
-								});				
-								// kalo domain yang dicari di kolom pencarian ada sama dengan yang di array blockedUrls_array,
-								if ($.inArray(domain, blockedUrls_array) > -1) {
-									// maka arahkan ke halaman block.html
-									chrome.tabs.update({url: chrome.extension.getURL("block.html") + "#" + domain});
-									return {redirectUrl: chrome.extension.getURL("block.html") + "#" + domain};
-								}
-								else {
-									// kalo ngga maka bisa browsing
-								}
-							}); // end loadBlockedUrls
-
-		          return;
-		        }		        
-	        	// console.log('hari ini ga boleh browsing');
-	        	return;
-	        } 
-	        else {
-	        	// kalo hari ini bukan hari yang dilarang, maka diperbolehkan untuk browsing
-	        	// console.log('hari ini boleh browsing');
-	        	// var code = setInterval(function(){alert('hari ini boleh browsing');}, 2000);
-	        	// chrome.tabs.executeScript(info.tabId, {code:'document.body.style.backgroundColor="blue"'});
-	        	return;
-	        }
-	      }
-			});			
-		},
-		// filters
-		{
-			urls: ["<all_urls>"],
-			types: ["main_frame"]
-		},
-		// what to do
-		["blocking"]
-		);
-
-		chrome.tabs.onRemoved.addListener(function(tabId, removeInfo) {
-      delete tabIdToDomain[tabId];
-    });
-
-		chrome.webRequest.onCompleted.addListener(function(info){
-				if (focusOff) {
-					return;
-				}
-				
-				// url yang diketikan di kolom pencarian
-				var url = info.url;
-				var domain = focuson.util.extractsDomain(url); // ngambil domainnya aja
-
-				// pertama, cek pilihan time management
-				focuson.storage.loadTimeManagement(function(data){
-					if (typeof data === "undefined") {
-						return;
-					}
-					if (data[0].type === "undefined"){
-						alert('Set your time management first');
-						return;
-					}
-		      var time_management_type = data[0].type;
-
-		      // kalo misal always block
-		      if (time_management_type === 0) {
-		        console.log('Your last setting: always block');
-
-		        // load blocked sites -> BLOCK
-						focuson.storage.loadBlockedUrls(function(data){
-							var blockedUrls = data;
-							var blockedUrls_array = []; // populated blockedUrls into one array
-							$.map(blockedUrls, function(obj, index){
-								var blockedUrl = obj.url;
-								blockedUrls_array.push(blockedUrl);
-							});
-							// kalo domain yang dicari di kolom pencarian ada sama dengan yang di array blockedUrls_array,
-							if ($.inArray(domain, blockedUrls_array) > -1) {
-								// maka arahkan ke halaman block.html
-								chrome.tabs.update({url: chrome.extension.getURL("block.html") + "#" + domain});
-								return {redirectUrl: chrome.extension.getURL("block.html") + "#" + domain};
-							}
-							else {
-								// kalo ngga maka bisa browsing
-							}
-						}); // end loadBlockedUrls
-		      }
-
-		      // kalo misal work time, cek settingannya
-		      else if (time_management_type === 1) {
-		        // alert('Your last setting: set my work time');
-		        var days = data[0].days;
-		        var start_time = data[0].start_time;
-		        var start_time_ms = focuson.timer.getTimeMilliseconds(start_time); // convert to milliseconds
-		        var finish_time = data[0].finish_time;
-		        var finish_time_ms = focuson.timer.getTimeMilliseconds(finish_time); // convert to milliseconds
-		        var current_time_ms = chrome.extension.getBackgroundPage().current_time_ms;
-		        
-		        // cek hari ini, apakah sama dengan data yang ada di days?
-		        if ($.inArray(day, days) > -1) {
-		        	// kalo hari ini termasuk hari yang dilarang, cek waktunya
-		        	if (current_time_ms < start_time_ms || current_time_ms > finish_time_ms ) {
-		        		// kalo waktu sekarang diluar dari jam kerja (out of work time), maka boleh
-			          console.log('di luar jam kerja');
-			          return;
-			        } 
-			        else {
-			        	// kalo masih di jam kerja, ga boleh (block)
-			          console.log("masih jam kerja");
-
-			          // load blocked sites
-								focuson.storage.loadBlockedUrls(function(data){
-									var blockedUrls = data;
-									var blockedUrls_array = []; // populated blockedUrls into one array
-									$.map(blockedUrls, function(obj, index){
-										var blockedUrl = obj.url;
-										blockedUrls_array.push(blockedUrl);
-									});				
-									// kalo domain yang dicari di kolom pencarian ada sama dengan yang di array blockedUrls_array,
-									if ($.inArray(domain, blockedUrls_array) > -1) {
-										// maka arahkan ke halaman block.html
-										chrome.tabs.update({url: chrome.extension.getURL("block.html") + "#" + domain});
-										return {redirectUrl: chrome.extension.getURL("block.html") + "#" + domain};
-									}
-									else {
-										// kalo ngga maka bisa browsing
-									}
-								}); // end loadBlockedUrls
-
-			          return;
-			        }		        
-		        	console.log('hari ini ga boleh browsing');
-		        	return;
-		        } 
-		        else {
-		        	// kalo hari ini bukan hari yang dilarang, maka diperbolehkan untuk browsing
-		        	console.log('hari ini boleh browsing');
-		        	// chrome.tabs.executeScript({code:alert('hari ini boleh browsing')});
-		        	return;
-		        }
-		      }
-				});	
-			
-		},
-		// filters
-		{
-      urls: ["<all_urls>"],
-      types: ["main_frame"]
-    }
-		);
-*/
 
 		getRuntime().onMessage.addListener(function(request, sender, sendResponse) {
 			if (request.type === "getFocusPreference") { // koneksi dengan popup.js
@@ -426,11 +204,10 @@
 			sendResponse("");
 			return true;
 		});
+		
 	};
-
 	
 	var init = function() {
-
 		focuson.storage.loadWormholes(function(){
 			// read settings
 			chrome.storage.sync.get(FOCUSON_STATE_SETTING, function(items) {
@@ -451,7 +228,6 @@
 	return {
 		init: init
 	};
-
 
 })().init();
 
